@@ -3,6 +3,9 @@ import fire from './fire';
 import Login from './components/Login';
 import Home from './components/Home';
 import './App.css';
+import * as ROUTES from "./constants/routes";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CompanyHome from './Pages/CompanyHome';
 
 function App() {
 
@@ -97,7 +100,13 @@ function App() {
           passwordError = {passwordError}  
         />
       )}
-      
+      {
+        <Router>
+          <Routes>
+            <Route path={ROUTES.COMPANYHOME} component={CompanyHome} />
+          </Routes>
+        </Router>
+      }
     </div>
   );
 }

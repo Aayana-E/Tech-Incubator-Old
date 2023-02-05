@@ -116,3 +116,50 @@ button {
   padding: 8px 0;
   background: #1c4bcc;
 }
+
+.Home_Content{
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+ 
+  
+  justify-content: center;
+  
+  
+  
+}
+
+.Home_Content button{
+  margin-right: 30px;
+  align-self: center;
+  width: 90px;
+  padding: 8px 0;
+  
+  
+}
+
+.Form{
+  margin-top: 50px;
+  margin-left: 50px;
+  width: 100%;
+  justify-content: center;
+  display: block;
+  align-self: center;
+  margin-top: 3rem;
+  
+  
+  
+}
+.Form h1{
+  padding-bottom: 5px;
+  
+}
+.Form input{
+  padding-top:  2px;
+  margin: 10px 0px;
+}
+
+.Submit{
+  width: 200px;
+ 
+}
