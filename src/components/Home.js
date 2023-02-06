@@ -1,20 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CompanyHome from '../Pages/CompanyHome';
 import StudentHome from '../Pages/StudentHome';
-import {db} from "../fire"
-
+import {db} from "../database"
+import { Route } from "react-router-dom";
 
 //import {Router, Routes} from 'react-router-dom';
 
 //import {Route, Link, BrowserRouter as Router,Routes} from 'react-router-dom';
-import {useNavigate} from "react-router-dom"
+import {Navigate} from "react-router-dom"
 import {Link} from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 
 const Home = (props) => {
-    //const navigate = useNavigate();
-    //let navigate = useNavigate();
+    //Fetching
+    const [loading, setLoading] = useState(true);
+    const [posts, setPosts] =useState([]);
+    const [goToCompanyHome, setGoToCompanyHome] = React.useState(false);
+    useEffect(()=>{
+        const getProfileFromFirebase = [];
+        const Profile = db.collection("CustomerProfile").onSnapshot((querySnapshot)=> {
+            querySnapshot.forEach((doc) => {
+                getProfileFromFirebase.push({...doc.data(), 
+                //    key: doc,id, 
+                })
+                
+            });
+            setPosts(getProfileFromFirebase);
+            setLoading(false);
+        });
+        return ()=> Profile();
+    }, []);
     
+    if (loading){
+        return <h1>Loading Company Profiles</h1>;
+       
+    }
     //Form
     const GetCompanyName = (event) =>{
         event.preventDefault();
@@ -28,9 +48,23 @@ const Home = (props) => {
             return accumulator;
         },{});
 
-       // db.collection("CustomerProfile").add("Google");
+       db.collection("CustomerProfile").add({formData});
+       db.collection("CustomerProfile").add({formData});
         console.log({formData});
     }
+
+
+    //const [goToCompanyHome, setGoToCompanyHome] = React.useState(false);
+
+    if (goToCompanyHome){
+        return <Route><Navigate to = "/CompanyHome"></Navigate></Route>;
+    }
+
+   // const ChangetoCompany = (event) =>{
+   //     setGoToCompanyHome =true;
+    //    
+    //    console.log("Company Page")
+    //}
    
 
     return(
@@ -55,7 +89,9 @@ const Home = (props) => {
                 //</Routes>
                 }
                 
-                <button onClick={props.ChangetoCompany}>
+                <button onClick={()=> {
+                    setGoToCompanyHome(true);
+                    }}>
                     Company  
                 </button>
                 <button>Student</button>
@@ -68,11 +104,26 @@ const Home = (props) => {
                 <form onSubmit={GetCompanyName}>
                     <input type="text" id="CompanyName" placeholder="Company Name?"></input>
                     <br></br>
-                    <input type="file" accept= "image/*" id="CompanyName" placeholder="Upload Logo?"></input>
+                    <input type="file" accept= "image/*" id="Logo" placeholder="Upload Logo?"></input>
                     <br></br>
                     <button className="Submit"> Submit</button>
                 </form>
             </div>
+            
+            {//Show Data
+            }
+            <div className="Company Info">
+                <h1>Company Profiles</h1>
+                {posts.length > 0 ? (
+                    posts.map((post)=> 
+                        <div key={post.key}>{post.Profile} </div>))
+                    :(
+                        <h1>No Profiles (Check again later)</h1>
+                    )
+                    
+                };
+            </div>
+            
             
 
 

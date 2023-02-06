@@ -6,6 +6,8 @@ import './App.css';
 import * as ROUTES from "./constants/routes";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CompanyHome from './Pages/CompanyHome';
+import StudentHome from './Pages/StudentHome';
+
 
 function App() {
 
@@ -15,6 +17,11 @@ function App() {
   const[emailError, setEmailError] = useState('');
   const[passwordError, setPasswordError] = useState('');
   const[hasAccount, setHasAccount] = useState(false);
+  const[company,setCompanyHome] = useState(false);
+
+  //const setCompanyHome =() =>{
+
+  //}
 
   const handleLogin = () => {
     clearErrors();
@@ -84,6 +91,14 @@ function App() {
 
   return (
     <div className="App">
+      <Router>
+        <Routes>
+         
+          <Route path='/CompanyHome' element={<CompanyHome/>} />
+          <Route path='/StudentHome' element={<StudentHome/>} />
+
+        </Routes>
+      </Router>
       {user ? (
         <Home handleLogout = {handleLogout} />
       ): (
@@ -100,13 +115,8 @@ function App() {
           passwordError = {passwordError}  
         />
       )}
-      {
-        <Router>
-          <Routes>
-            <Route path={ROUTES.COMPANYHOME} component={CompanyHome} />
-          </Routes>
-        </Router>
-      }
+     
+      
     </div>
   );
 }
